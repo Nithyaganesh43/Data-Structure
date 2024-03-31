@@ -14,6 +14,6 @@ int main(){
     }printf("\n the elements new array:");
      for(int i=0;i<n;i++){
         printf("%d",narr[i]);
-        
+        return ;
     }
 }  
