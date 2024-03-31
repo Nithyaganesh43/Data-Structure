@@ -1,20 +1,33 @@
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <conio.h>
 // Define a node structure for the linked list
 struct node {
     int data;
     struct node *next;
 };
-
+//reverse function
+void reverse(struct node** head){
+    struct node *prev=NULL;
+    struct node* curt=*head;
+    struct node* next=NULL;
+    if((*head)==NULL || (*head)->next==NULL) return;
+    while(curt){
+        next=curt->next;
+        curt->next=prev;
+        prev=curt;
+        curt=next;
+    }
+    *head=prev;
+}
 // Function to display the elements of the linked list
 void display(struct node *head){
     if(head == NULL)
         return;
-    
+
     printf("\nCurrent elements: ");
     struct node *temp = head;
-    
+
     while(temp != NULL){
         printf("%d ", temp->data);
         temp = temp->next;
@@ -73,14 +86,15 @@ void append_position(struct node **head, int data, int pos) {
 int main() {
     int data, option, pos;
     struct node *head = NULL;
-    
+    int i=1;
     while (1) {
-        printf("\nEnter the data for node %d: ", head ? head->data + 1 : 1);
+        printf("\nEnter the data for node %d: ", i);
         scanf("%d", &data);
-        
-        printf("1. Starting\n2. End\n3. Position\nWhere to insert (1/2/3): ");
+        i++;
+
+        printf("\n1. Starting\n2. End\n3. Position\nWhere to insert (1/2/3): ");
         scanf("%d", &option);
-        
+
         switch (option) {
             case 1:
                 append_start(&head, data);
@@ -96,9 +110,18 @@ int main() {
             default:
                 printf("Invalid option\n");
         }
-        
+
         display(head);
+        printf("\nDo you want to reverse : yes->Y / no->N :");
+        char opt;
+        opt=getch();
+        if(opt=='Y'){
+           reverse(&head);
+
+        display(head);
+        }
+
     }
-    
+
     return 0;
 }

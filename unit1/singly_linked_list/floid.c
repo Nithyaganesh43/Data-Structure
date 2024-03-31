@@ -12,7 +12,6 @@ struct ListNode {
 void removeCycle(struct ListNode *head) {
     if (head == NULL || head->next == NULL)
         return;
-
     struct ListNode *slow = head;
     struct ListNode *fast = head;
 
@@ -36,7 +35,6 @@ void removeCycle(struct ListNode *head) {
         slow = slow->next;
         fast = fast->next;
     }
-
     // Remove the cycle by setting the next of the node where the cycle starts to NULL
     fast->next = NULL;
 }
@@ -69,15 +67,15 @@ int main() {
     head->next->next->next = newNode(4);
     head->next->next->next->next = head->next; // Creating a cycle: 4->2
 
-    printf("Original Linked List:\n");
-    printList(head);
+    printf("Original Linked List: 1 2 3 4 2 3 4 ....2 3 4 2 3 4\n");
+
 
     // Remove cycle if present
     // Call removeCycle function to remove cycle if exists
     removeCycle(head);
 
     printf("\nLinked List after removing cycle:\n");
-    printList(head);
+   printList(head);
 
     return 0;
 }
