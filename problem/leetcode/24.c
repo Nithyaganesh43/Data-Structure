@@ -81,30 +81,21 @@ void delete_last(struct node **head){
       free(temp->next);
     
 }
-void delete_pos(struct node **head,int pos){
-    struct node *temp=*head,*temp2;
-    if(pos==1){
-        delete_beg(head);
-        return 0;
-    }
-     else{
-     for(int i=1;i<pos-1;i++) {
+void swap(int pos1,int pos2,struct node **head){
+    struct node *temp=*head;
+    for(int i=1;i<pos-1;i++) {
       temp = temp->next;
     }
-    temp2=temp->next;
-    temp->next=temp->next->next;
-    
-    free(temp2);
-
-}}
+    append_position(&head,data,pos);
+    }
 
 int main()
-{ int data,pos;
+{ int data,pos,pos1,pos2;
   struct node *head = NULL;
   int n;
   while(1){
      
-      printf("1.starting\n2.end\n3.insert at position\n4.deleting at beg\n5.delete at last\n6.delete at position\nwhat you want(1/2/3/4/5/6):");
+      printf("1.starting\n2.end\n3.insert at position\n4.deleting at beg\n5.delete at last\n6.swap at position\nwhat you want(1/2/3/4/5/6):");
       int option;
       scanf("%d",&option);
     switch(option){
@@ -130,9 +121,11 @@ int main()
       delete_last(&head);
       break;
       case 6:
-    printf("\nEnter the  position:");
-      scanf("%d",&pos);
-      delete_pos(&head,pos);
+    printf("\nEnter the  position 1:");
+      scanf("%d",&pos1);
+      printf("\nEnter the  position 1:");
+      scanf("%d",&pos2);
+      swap(pos1,pos2,&head);
     }display(head);
     pos=0;
     }

@@ -9,24 +9,20 @@ void push(int val)
   }
   else
   {
-    top++;
-    stack[top]=val;
+    stack[++top]=val;
   }
 }
 int pop(){
-    int val;
     if(top==-1){
     printf("\nunderflow");
     }
 else{
-    val=stack[top];
-    top--;
+    return stack[top--];
 }
-return val;
 }
 void display(){printf("\n");
     for(int i=top;i>=0;i--){
-        printf("%d ",stack[i]);
+        printf("%d ->",stack[i]);
     }
 }
 int main(void)
