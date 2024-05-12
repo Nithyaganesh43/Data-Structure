@@ -104,7 +104,7 @@ int main()
   int n;
   while(1){
      
-      printf("1.starting\n2.end\n3.insert at position\n4.deleting at beg\n5.delete at last\ndelete at position\nwhat you want(1/2/3/4/5/6):");
+      printf("1.starting\n2.end\n3.insert at position\n4.deleting at beg\n5.delete at last\n6.delete at position\nwhat you want(1/2/3/4/5/6):");
       int option;
       scanf("%d",&option);
     switch(option){
