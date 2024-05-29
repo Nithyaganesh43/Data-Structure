@@ -1,15 +1,5 @@
 #include<stdio.h>
-void sort(int *arr, int n) {
-    for (int i = 0; i <  n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (*(arr + j) > *(arr + j + 1)) {
-                int temp = *(arr + j);
-                *(arr + j) = *(arr + j + 1);
-                *(arr + j + 1) = temp;
-            }
-        }
-    }
-}
+
 void remdup(int *arr, int *arrnd, int n,int *nnd) {
     int indx = 0;
     *nnd=0;
@@ -30,7 +20,6 @@ int main(){
         printf("Enter the %d element:",i+1);
         scanf("%d",&arr[i]);
     }
-sort(arr,n);
 remdup(arr,arrnd,n,&nnd);
 int val[nnd];
 for(int i=0;i<nnd;i++){

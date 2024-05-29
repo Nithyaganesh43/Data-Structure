@@ -18,7 +18,6 @@ while(count/2--){
         }else{
             return false;
         }
-
 }
 return true;
 }
