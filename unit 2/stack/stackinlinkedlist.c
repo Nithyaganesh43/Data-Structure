@@ -1,33 +1,90 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node {
+struct stack {
     int data;
-    struct node *next;
+    struct stack *next;
 };
 
-struct node* delete_at_beg(struct node* head) {
-    if (head == NULL) {
-        printf("List is empty\n");
-        return NULL;
+struct stack* top = NULL;
+
+void push(int data) {
+    struct stack *newNode = (struct stack*)malloc(sizeof(struct stack));
+    newNode->data = data;
+    newNode->next = top;
+    top = newNode;
+}
+
+void pop() {
+    if (top == NULL) {
+        printf("Stack underflow: Stack is empty.\n");
+        return;
     }
-
-    struct node* temp = head;
-    head = head->next;
+    struct stack *temp = top;
+    top = top->next;
+    printf("Popped element: %d\n", temp->data);
     free(temp);
+}
 
-    return head;
+void peek() {
+    if (top == NULL) {
+        printf("Stack is empty.\n");
+        return;
+    }
+    printf("Top element: %d\n", top->data);
+}
+
+void display() {
+    struct stack *temp = top;
+    if (temp == NULL) {
+        printf("Stack is empty.\n");
+        return;
+    }
+    printf("Stack elements: ");
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
 }
 
 int main() {
-    // Example usage
-    struct node *head = NULL; // Initialize an empty list
-    // Code to populate the list goes here
+    int choice, data;
 
-    // Deleting node from the beginning of the list
-    head = delete_at_beg(head);
+    while (1) {
+        printf("\nStack Operations:\n");
+        printf("1. Push\n");
+        printf("2. Pop\n");
+        printf("3. Peek\n");
+        printf("4. Display\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
 
-    // Code to print or use the updated list goes here
+        switch(choice) {
+            case 1:
+                printf("Enter data to push: ");
+                scanf("%d", &data);
+                push(data);
+                display();
+                break;
+            case 2:
+                pop();
+                display();
+                break;
+            case 3:
+                peek();
+                break;
+            case 4:
+                display();
+                break;
+            case 5:
+                printf("Exiting...\n");
+                exit(0);
+            default:
+                printf("Invalid choice. Please enter a valid choice.\n");
+        }
+    }
 
     return 0;
 }

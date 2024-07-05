@@ -7,25 +7,24 @@ struct node {
     struct node *next;
     struct node *prev;
 };
-
+void swap(struct node **a,struct node **b){
+    struct node *temp=*a;
+    *a=*b;
+    *b=temp;
+}
 // Function to reverse a doubly circular linked list
 struct node* reverse_DCLL(struct node *head) {
     if (head == NULL) {
         printf("List is empty\n");
         return NULL;
     }
-
-    struct node *current = head->next;
-    struct node *newHead = head;
-
-    while (current != head) {
-        struct node *nextNode = current->next;
-        current->next = current->prev;
-        current->prev = nextNode;
-        current = nextNode;
-    }
-
-    return current->prev;
+struct node* tempH=head;
+struct node* tempT=head->prev;
+while(tempH!=tempT){
+    swap(&(tempH->next),&(tempH->prev));
+    tempH=tempH->prev;
+}swap(&(tempH->next),&(tempH->prev));//swap tail
+return tempT;
 }
 
 // Function to print the doubly circular linked list

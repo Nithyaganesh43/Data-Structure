@@ -7,97 +7,89 @@ struct node{
 
 typedef struct node node;
 node *tail=NULL;
-void insertAtBeg(int data){
+node* create(int data){
     node *nn=(node*)malloc(sizeof(node));
     nn->data=data;
-    if(tail==NULL){
-        tail=nn;
-        nn->next=nn;
-    }else
-    {
-         nn->next=tail->next;
-         tail->next=nn;
-    }
+    nn->next=nn;//initialy it points to itself
+    return nn;
 }
-void insertAtLast(int data){
-    node *nn;
-    nn=(node*)malloc(sizeof(node));
-    nn->data=data;
-    if(tail==NULL){
-        tail=nn;
-        nn->next=nn;
-    }else
-    {
-         nn->next=tail->next;
-         tail->next=nn;
-    }tail=nn;
-}
+
 void deleteAtBeg(){
-    if(tail->next==tail){
-        printf("\nList empty");
-        tail=NULL;
-    }else{
-        node *temp=tail->next;//head
-        tail->next=tail->next->next;
-        free(temp);
+    if(tail==NULL){
+        printf("\nEmpty");
+        return;
     }
+    if(tail==tail->next){
+        free(tail);
+        tail=NULL;
+        return;
+        }
+    node* temp = tail->next;
+    tail->next = tail->next->next;
+    free(temp);
 }
 void deleteAtLast(){
     if(tail==NULL){
-        printf("\nList empty");
+        printf("\nEmpty");
         return;
     }
-    if(tail->next==tail){
-        printf("\nAll nodes deleted.Now list is empty");
+    if(tail==tail->next){
+        free(tail);
         tail=NULL;
-    }else{
-        //tail ah oru step back ku kondu poitu
-    node *temp=tail;
+        return;
+        }
+    node* temp=tail->next;
     while(temp->next!=tail){
         temp=temp->next;
     }
+    temp->next=tail->next;
+   free(tail);
     tail=temp;
-    //delet at begining pannanum
-        if(tail->next==tail){
-        printf("\nList empty");
-        tail=NULL;
-    }else{
-        node *temp=tail->next;//head
-        tail->next=tail->next->next;
-        free(temp);
-    }
-    }
-    }
+}
 
-void reverse(){
-    if(tail->next==tail){
-        printf("\nsingle elemtnet list");
-    }else{
-        node *prev,*curt,*next;
-        curt=tail->next;                            //initial ah curt head laum next next node laum irukum
-        while(curt!=tail){
-            prev=curt;                              
-            curt=next;                              
-            next=curt->next;                          
-            curt->next=prev;                        //link ah reverse panrom  
-        }                                           //exit la curt tail la irukum next again head la irukum // NOTE: epo head tha old tail vise
-        next->next=tail;                            //head ooda next tail ku poganum
-        tail=next;                                  //epo head tha tail uhh
-    }
+node* reverse( ) {
+    if (tail == NULL || tail->next == tail) return tail;
+
+    node *prev, *curt = (tail)->next, *next = curt->next;
+  
+    while(curt!=tail){
+        prev=curt;
+        curt=next;
+        next=curt->next;
+        curt->next=prev;
+    }next->next=tail;//elame same as singly but last step la next null agathu head ku poirum atha
+    return next;//use panni head tail ah point panra maari panita matter over
+}
+void insertAtBeg(int data){
+   if(tail==NULL){
+    tail=create(data);
+    return;
+   }
+   node *nn=create(data);
+   nn->next=tail->next;
+   tail->next=nn;
+}
+void insertAtLast(int data){
+     if(tail==NULL){
+    tail=create(data);
+    return;
+   }
+   node *nn=create(data);
+   nn->next=tail->next;
+   tail->next=nn;
+   tail=nn;
 }
 void display(){
     if(tail==NULL){
-        printf("\nathula onum illaah");
-    }else{
-        printf("\nelements:");
-        node *temp=tail->next;
-        while(temp!=tail){
-            printf("%d",temp->data);//head
-            temp=temp->next;
-            
-        }printf("%d",temp->data);
-        
+        printf("\nEmpty");
+        return;
     }
+    printf("\nElements :");
+     node* temp=tail->next;
+    while(temp!=tail){
+        printf("%d -> ",temp->data);
+        temp=temp->next;
+    }printf("%d -> ",tail->data);
 }
 int main(){
     int data,choise;
@@ -123,7 +115,7 @@ int main(){
          deleteAtLast();
         break;
         case 5:
-        reverse();
+        tail=reverse();
         break;
         case 6:
          exit(0);

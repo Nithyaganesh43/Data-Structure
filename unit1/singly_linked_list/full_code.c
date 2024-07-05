@@ -30,33 +30,39 @@ void insert_beg(int d){
     nn->next=q;
     q=nn;
 }
-void insert_pos(int data,int pos){
-    if(pos<1){
-        q=create(data);
-    }
-    if(pos==1){
-        insert_beg(data);
+void insert_pos(int d, int pos) {
+    node* nn = create(d);
+    if (q == NULL) {
+        q = nn;
+        return;
+    } 
+
+    if (pos == 1) { // Insert at the beginning
+        nn->next = q;
+        q = nn;
         return;
     }
-    node *temp=q;
-    for(int i=0;temp && i<pos-2;i++){
-        temp=temp->next;
+
+    node* temp = q;
+    pos -= 2;
+    while (temp->next != NULL && pos--) {
+        temp = temp->next;
     }
-    node *nn=create(data);
-    nn->next=temp->next;
-    temp->next=nn;
+
+    nn->next = temp->next;
+    temp->next = nn;
 }
+
 void delete_end(){
     if(q==NULL || q->next==NULL){
         q=NULL;
-        printf("\n Already empty da venna");
+        printf("\n  empty da venna");
         return;
     }
     node *temp=q;
     while(temp->next->next){
         temp=temp->next;
-    }
-    node *t=temp->next;
+    } 
     temp->next=NULL;
 }
 void delete_beg(){
@@ -77,13 +83,13 @@ void delete_pos(int pos){
     for(int i=0;temp && i<pos-2;i++){
         temp=temp->next;
     }
-    if(temp->next){
+    if(!temp){
         delete_end();
         return;
     }
     node *t=temp->next;
     temp->next=temp->next->next;
-    
+    free(t);
 }
 void display(){
     node *temp=q;

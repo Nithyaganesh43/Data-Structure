@@ -47,7 +47,8 @@ char pop() {
 void infixtopostfix(char infix[]) {
   int i, j = 0;
   char symbol, next;
-  for (i = 0; i < strlen(infix); i++) {
+  int len=strlen(infix);
+  for (i = 0; i < len ; i++) {
     symbol = infix[i];
     switch (symbol) {
     case '(':
@@ -65,6 +66,7 @@ void infixtopostfix(char infix[]) {
     case '-':
     case '*':
     case '/':
+    // https://youtube.com/clip/Ugkxd1qC6ntxn6G7RJpcoGKockDH5rKSZ5DQ?feature=shared
       while (!isEmpty() && precedence(stack[top]) >= precedence(symbol)) {
         postfix[j++] = pop();
       }

@@ -6,13 +6,13 @@ struct node {
     struct node *next, *prev;
 };
 
-void create(struct node **q, int d) {
+struct node *create(int d) {
     struct node *nn;
     nn = (struct node*)malloc(sizeof(struct node));
     nn->next = NULL;
     nn->prev = NULL;
     nn->data = d;
-    (*q) = nn;
+    return nn;
 }
 
 void insert_beg(struct node **q, int d) {
@@ -96,32 +96,26 @@ void deleteAtlast(struct node **q) {
 }
 
 void deleteAtpos(struct node **q, int pos) {
-    if (*q == NULL) {
-        printf("List is empty\n");
+    struct node* temp=*q;
+    if(!temp){
         return;
     }
-    struct node *temp = *q;
-    struct node *prev = NULL;
-    if (pos == 1) {
-        deletefirst(q);
+    
+    for(int x=0;x<pos-1 && temp!=NULL;x++){
+        temp=temp->next;
+    }
+    if(!temp){
         return;
     }
-    int count = 1;
-    while (temp != NULL && count < pos) {
-        prev = temp;
-        temp = temp->next;
-        count++;
-    }
-    if (temp == NULL) {
-        printf("Invalid position\n");
+    if(temp->prev==NULL){
+        temp->next->prev=NULL;
+        *q=temp->next;
         return;
     }
-    prev->next = temp->next;
-    if (temp->next != NULL) {
-        temp->next->prev = prev;
-    }
-    printf("%d is deleted\n", temp->data);
-    free(temp);
+    temp->prev->next=temp->next;
+    if(temp->next!=NULL)
+        temp->next->prev=temp->prev;
+
 }
 
 void display(struct node *head) {
@@ -152,7 +146,7 @@ int main() {
             case 1:
                 printf("\nEnter data to create: ");
                 scanf("%d", &data);
-                create(&head, data);
+                head=create(data);
                 display(head);
                 break;
             case 2:

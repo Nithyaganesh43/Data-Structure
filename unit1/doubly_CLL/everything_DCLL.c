@@ -38,10 +38,10 @@ void insert_last(int d) {
     node *nn;
     nn = (node*)malloc(sizeof(node));
     nn->data = d;
-    tail->prev->next=nn;
-    nn->prev=tail->prev;
-    nn->next=tail;
-    tail->prev=nn;
+    nn->next=tail->next;
+    nn->prev=tail;
+    tail->next->prev=nn;
+    tail->next=nn;
     tail=nn;
 }
 
@@ -53,14 +53,14 @@ void insert_position(int d, int p) {
     node *nn, *temp = tail->next;
     nn = (node*)malloc(sizeof(node));
     nn->data = d;
-    for (int i = 1; i < p - 1 && temp != tail; i++) {
+    for (int i = 0; i < p - 2 && temp != tail; i++) {
         temp = temp->next;
     }
     nn->next = temp->next;
     nn->prev = temp;
     temp->next->prev = nn;
     temp->next = nn;
-    if (nn->next == tail->next) // Update tail if inserted at the last position
+    if (temp == tail) // Update tail if inserted at the last position
         tail = nn;
 }
 
@@ -69,11 +69,16 @@ void deletefirst() {
         printf("List is empty\n");
         return;
     }
+    if (tail == tail->next) {
+          tail = NULL;
+          return;
+    }
+    // If only one node in the list
+      
     node *temp = tail->next;
     tail->next = temp->next;
     temp->next->prev = tail;
-    if (temp == tail) // If only one node in the list
-        tail = NULL;
+    
     printf("%d data is deleted\n", temp->data);
     free(temp);
 }
@@ -83,13 +88,14 @@ void deleteAtlast() {
         printf("List is empty\n");
         return;
     }
-    node *temp = tail;
-    tail->prev->next = tail->next;
-    tail->next->prev = tail->prev;
-    tail = tail->prev;
-    if (temp->next == temp) // If only one node in the list
-        tail = NULL;
-    printf("%d is deleted\n", temp->data);
+    if (tail == tail->next) {
+          tail = NULL;
+          return;
+    }
+    node *temp=tail;
+    tail->next->prev=tail->prev;
+    tail->prev->next=tail->next;
+    tail=tail->prev;
     free(temp);
 }
 
@@ -98,29 +104,26 @@ void deleteAtpos(int pos) {
         printf("List is empty\n");
         return;
     }
-    node *temp = tail->next;
-    node *prev = NULL;
-    if (pos == 1) {
+    if (tail == tail->next ) {
+          tail = NULL;
+          return;
+    }
+    if(pos==1){
         deletefirst();
         return;
     }
-    int count = 1;
-    while (temp != tail && count < pos) {
-        prev = temp;
-        temp = temp->next;
-        count++;
+    node *temp=tail->next;
+    pos-=2;
+    while(temp!=tail && pos>0){
+        temp=temp->next;
     }
-    if (temp == tail && count == pos) {
+    if(temp==tail){
         deleteAtlast();
         return;
     }
-    if (temp == tail) {
-        printf("Invalid position\n");
-        return;
-    }
-    prev->next = temp->next;
-    temp->next->prev = prev;
-    printf("%d is deleted\n", temp->data);
+    temp=temp->next;
+    temp->next->prev=temp->prev;
+    temp->prev->next=temp->next;
     free(temp);
 }
 
